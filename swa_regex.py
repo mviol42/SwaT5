@@ -1,17 +1,22 @@
 import re
 import csv
+from tqdm import tqdm
 
-
+# reads from the verb dictionary and formats it
+# meaning it chops off the last vowel and adds '|' between terms for regex
 def read_csv_and_concatenate(file_path):
     concatenated_string = ""
     with open(file_path, 'r') as csv_file:
         reader = csv.reader(csv_file)
+        vowels = ['a', 'e', 'i', 'o', 'u']
         for row in reader:
-            concatenated_string += '|'.join(row)
-    return concatenated_string[1:]
+            if row[-1] in vowels:
+                row = row[:-1]
+            concatenated_string += ' '.join(row) + '|'
+    return '(' + concatenated_string[1:] + ')'
 
 
-csv_file_path = 'swahili_dic_verbs_no_dashes.csv'
+csv_file_path = 'resources/swahili_dic_verbs_no_dashes.csv'
 
 # these correspond to morpheme slots
 P1 = "ha"
@@ -71,13 +76,13 @@ if __name__ == '__main__':
                        f"{Rule7}|"
                        f"{Rule8})")
 
-    txt_file_path = 'swahili_data/train.txt'
+    txt_file_path = 'resources/swahili_data/train.txt'
     word_list = read_words(txt_file_path)
     morphemes = {}
-    for word in word_list:
-        matches = [match for match in re.split(regex, 'sipendi') if match]
-        if len(matches) > 1:
+    for word in tqdm(word_list):
+        matches = [match for match in re.split(regex, word) if match]
+        if len(matches) > 1 and len(matches[0]) > 4:
             morphemes[matches[0]] = matches[1:]
-
-    output_file_path = 'output.csv'
-    write_dict_to_csv(morphemes, csv_file_path)
+    print(len(morphemes))
+    output_file_path = './resources/verbs_with_morphemes_from_swaregex.csv'
+    write_dict_to_csv(morphemes, output_file_path)
