@@ -7,7 +7,7 @@ P3 = "si"
 P4 = "na|ka|me|sha|taka|li"
 P5 = "ye|yo|lo|cho|vyo|zo|po|ko|mo|ye"
 P6 = "mw"
-P7 = "endesh"
+P7 = "pend"
 P8 = "an|az|i|ian|ik|iki|ikiw|ikiz|ikw|ili|iliw|ish|ishiw|iz|e|ek|ele|ew|esh|" \
      "et|ez|k|lek|lew|li|liw|m|n|ol|sh|shan|s|u|uk|ul|uli|uliw|ush|w|y|z|zik|zw"
 P9 = "i"
@@ -46,4 +46,4 @@ if __name__ == '__main__':
 
     # to text each verb, you'll need to change both the verb here and P7 up above (p7 is the root of the verb)
     # feel free to factor this code in anyway if you want to make it more readable/easier to work with
-    print([match for match in re.split(regex, 'verb') if match])
+    print([match for match in re.split(regex, 'sipendi') if match])
