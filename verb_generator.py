@@ -30,7 +30,7 @@ tense_prefixes = {
     "pst.prf.neg": "ja",
     "fut": "ta",
     "hab.pos": "hu"
-}  # TODO Add situational if necessary, and narrative tenses, prs.irr, pst.irr
+}  
 
 relative_prefixes = {
     "cl1.rel": "ye",
@@ -49,7 +49,7 @@ relative_prefixes = {
     "cl16.rel": "po",
     "cl17.rel": "ko",
     "cl18.rel": "mo"
-}  # TODO Add relative verb forms
+}
 
 object_prefixes = {
     "1sg.sbj": "ni",
@@ -94,7 +94,7 @@ def generate_surface_form(verb):
     subject_negation_morpheme = ""
     subject_morpheme = ""
     if verb["finite"] and verb["mood"] != "imp" and verb["tense"] != "hab":
-        if not verb["negation"]:
+        if not verb["negation"] or verb["mood"] == "cond":
             if verb["subject"] == "1sg":
                 subject_morpheme = subject_prefixes["1sg.pos.sbj"]
             else:
@@ -119,9 +119,36 @@ def generate_surface_form(verb):
     # Generate the tense morpheme
     tense_morpheme = ""
     if verb["finite"] and verb["mood"] != "imp":
-        if verb["mood"] == "sbjv":
+        # Verbs with relative pronouns take "si" iff negative
+        if verb["mood"] == "sbjv" or (verb["relative"] is not None and verb["negation"]):
             if verb["negation"]:
                 tense_morpheme = "si"
+        elif verb["mood"] == "cond":
+            if verb["tense"] == "fut" or verb["tense"] == "hab":
+                raise Exception(f"Conditional {verb['tense']} does not exist.")
+            elif verb["tense"] == "prs":
+                tense_morpheme = "nge"
+            elif verb["tense"] == "pst" or verb["tense"] == "pst.prf":
+                tense_morpheme = "ngeli"
+            # If negative, add the negative si
+            if verb["negation"]:
+                tense_morpheme = "si" + tense_morpheme
+        elif verb["mood"] == "sit" or verb["mood"] == "cons":
+            if verb["negation"]:
+                raise Exception(f"{verb['mood']} verbs can't be negated.")
+            if verb["mood"] == "sit":
+                tense_morpheme = "ki"
+            elif verb["mood"] == "cons":
+                tense_morpheme = "ka"
+        elif verb["relative"] is not None:
+            if verb["tense"] == "fut":
+                tense_morpheme = "taka"
+            elif verb["tense"] == "pst.prf":
+                tense_morpheme = "li"
+            elif verb["tense"] == "hab":
+                tense_morpheme = "na"
+            else:
+                tense_morpheme = tense_prefixes[verb["tense"] + ".pos"]
         else:
             if verb["tense"] == "fut":
                 tense_morpheme = tense_prefixes["tense"]
@@ -140,9 +167,10 @@ def generate_surface_form(verb):
     morphemes.append(anterior_morpheme)
 
     # Generate the relative morpheme
+    # Tenseless positive relative templates are not handled
     relative_morpheme = ""
     if verb["finite"] and verb["mood"] != "imp":
-        if verb["relative"] is not None:  # TODO Handle relative morpheme irregualrities
+        if verb["relative"] is not None:
             relative_morpheme = relative_prefixes[verb["relative"] + ".rel"]
     morphemes.append(relative_morpheme)
 
@@ -183,7 +211,7 @@ def generate_surface_form(verb):
     morphemes.append(causative_morpheme)
 
     # Add the passive morpheme
-    passive_morpheme = ""  # TODO Handle exceptions
+    passive_morpheme = ""
     if verb["passive"]:
         if verb_class == "a":
             if morphemes[-1][-1] in "aeiou":
@@ -276,7 +304,7 @@ def generate_surface_form(verb):
             else:
                 final_vowel_morpheme = "a"
         else:
-            raise Exception("Mood must be 'sbjv', 'imp', 'ind'")  # TODO cond?
+            raise Exception("Mood must be 'sbjv', 'imp', 'ind', 'cond', 'sit'")
     morphemes.append(final_vowel_morpheme)
     morphemes.append(imperative_morpheme)
 
