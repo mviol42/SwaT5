@@ -323,5 +323,5 @@ def make_dataset(size, file_name, weighted_randomness=True):
 
 
 if __name__ == '__main__':
-    make_dataset(100000, "100000verbs.txt")
+    make_dataset(100, "test100verbs.json")
 
