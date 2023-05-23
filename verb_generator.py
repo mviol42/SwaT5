@@ -52,25 +52,25 @@ relative_prefixes = {
 }
 
 object_prefixes = {
-    "1sg.sbj": "ni",
-    "2sg.sbj": "ku",
-    "1pl.sbj": "tu",
-    "2pl.sbj": "ma",  # cl1.obj are handled separately
-    "cl2.sbj": "wa",
-    "cl3.sbj": "u",
-    "cl4.sbj": "i",
-    "cl5.sbj": "li",
-    "cl6.sbj": "ya",
-    "cl7.sbj": "ki",
-    "cl8.sbj": "vi",
-    "cl9.sbj": "i",
-    "cl10.sbj": "zi",
-    "cl11.sbj": "u",
-    "cl14.sbj": "u",
-    "cl15.sbj": "ku",
-    "cl16.sbj": "pa",
-    "cl17.sbj": "ku",
-    "cl18.sbj": "mu"
+    "1sg.obj": "ni",
+    "2sg.obj": "ku",
+    "1pl.obj": "tu",
+    "2pl.obj": "ma",  # cl1.obj are handled separately
+    "cl2.obj": "wa",
+    "cl3.obj": "u",
+    "cl4.obj": "i",
+    "cl5.obj": "li",
+    "cl6.obj": "ya",
+    "cl7.obj": "ki",
+    "cl8.obj": "vi",
+    "cl9.obj": "i",
+    "cl10.obj": "zi",
+    "cl11.obj": "u",
+    "cl14.obj": "u",
+    "cl15.obj": "ku",
+    "cl16.obj": "pa",
+    "cl17.obj": "ku",
+    "cl18.obj": "mu"
 }
 
 
@@ -133,6 +133,7 @@ def generate_surface_form(verb):
             # If negative, add the negative si
             if verb["negation"]:
                 tense_morpheme = "si" + tense_morpheme
+        # Sit = situational, cons = consecutive
         elif verb["mood"] == "sit" or verb["mood"] == "cons":
             if verb["negation"]:
                 raise Exception(f"{verb['mood']} verbs can't be negated.")
@@ -162,7 +163,7 @@ def generate_surface_form(verb):
 
     # Generate the anterior morpheme
     anterior_morpheme = ""
-    if verb["anterior"]:
+    if verb["finite"] and verb["anterior"]:
         anterior_morpheme = "sha"
     morphemes.append(anterior_morpheme)
 
@@ -287,7 +288,7 @@ def generate_surface_form(verb):
         if verb["mood"] == "sbjv":
             if verb_class == "a":
                 final_vowel_morpheme = "e"
-        elif verb["imp"] == "imp":
+        elif verb["mood"] == "imp":
             if verb["subject"] == "2sg":
                 if verb["object"] is not None:
                     if verb_class == "a":
