@@ -93,7 +93,12 @@ def generate_surface_form(verb):
     # Generate the subject and subject negation morphemes
     subject_negation_morpheme = ""
     subject_morpheme = ""
-    if verb["finite"] and verb["mood"] != "imp" and verb["tense"] != "hab":
+    if not verb["finite"]:
+        if verb["negation"]:
+            subject_morpheme = "kuto"
+        else:
+            subject_morpheme = "ku"
+    elif verb["mood"] != "imp" and verb["tense"] != "hab":
         if not verb["negation"] or verb["mood"] == "cond":
             if verb["subject"] == "1sg":
                 subject_morpheme = subject_prefixes["1sg.pos.sbj"]
@@ -108,11 +113,6 @@ def generate_surface_form(verb):
             else:
                 subject_negation_morpheme = "ha"
                 subject_morpheme = subject_prefixes[verb["subject"] + ".sbj"]
-    else:
-        if verb["negation"]:
-            subject_morpheme = "kuto"
-        else:
-            subject_morpheme = "ku"
     morphemes.append(subject_negation_morpheme)
     morphemes.append(subject_morpheme)
 
