@@ -312,7 +312,7 @@ def make_dataset(size, file_name, weighted_randomness=True):
     data = []
     for i in range(size):
         try:
-            data.append(make_verb(weighted_randomness) )
+            data.append(make_verb(weighted_randomness))
         except Exception:
             pass
         if i % 1000 == 1:
@@ -323,5 +323,6 @@ def make_dataset(size, file_name, weighted_randomness=True):
 
 
 if __name__ == '__main__':
-    make_dataset(100, "test100verbs.json")
+    num_verbs = 1000
+    make_dataset(num_verbs, f"test{str(num_verbs)}verbs.json")
 
