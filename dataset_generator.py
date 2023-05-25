@@ -112,6 +112,11 @@ stative_options = {
     "False": 0.95
 }
 
+reciprocal_options = {
+    "True": 0.1,
+    "False": 0.9
+}
+
 mood_options = {
     "sbjv": 0.1,
     "imp": 0.05,
@@ -121,139 +126,8 @@ mood_options = {
     "cons": 0.025
 }
 
-root = [
-    "abudu",
-    "acha",
-    "achana",
-    "achia",
-    "adhibu",
-    "aga",
-    "agana",
-    "agiza",
-    "agua",
-    "aibisha",
-    "ajiri",
-    "aka",
-    "alika",
-    "amba",
-    "ambiana",
-    "ambua",
-    "amini",
-    "amka",
-    "amsha",
-    "amua",
-    "amuka",
-    "amuru",
-    "andalia",
-    "andamana",
-    "andika",
-    "angalia",
-    "angamia",
-    "angaza",
-    "anguka",
-    "angusha",
-    "anika",
-    "anua",
-    "anza",
-    "apa",
-    "azima",
-    "azimu",
-    "babaika",
-    "babuka",
-    "badili",
-    "bahatisha",
-    "baki",
-    "bandika",
-    "banduka",
-    "banika",
-    "bariki",
-    "batili",
-    "beba",
-    "bembeleza",
-    "bidi",
-    "bingirika",
-    "bishana",
-    "bomoa",
-    "burudisha",
-    "bwata",
-    "bweka",
-    "chacha",
-    "chafua",
-    "chafya",
-    "chagua",
-    "chambua",
-    "chana",
-    "changa",
-    "changamsha",
-    "changanya",
-    "changanyika",
-    "chanja",
-    "chefuka",
-    "cheka",
-    "chekecha",
-    "chekesha",
-    "chelewa",
-    "chemka",
-    "chemsha",
-    "cheza",
-    "chimba",
-    "chinja",
-    "chipuka",
-    "chochea",
-    "choka",
-    "chokonoa",
-    "choma",
-    "chomoa",
-    "chonga",
-    "chora",
-    "chota",
-    "chuchumaa",
-    "chuja",
-    "chukia",
-    "chukua",
-    "chukulia",
-    "chuma",
-    "chuna",
-    "chunga",
-    "chutama",
-    "dai",
-    "daka",
-    "danganya",
-    "dhani",
-    "elea",
-    "elimisha",
-    "enda",
-    "enea",
-    "epa",
-    "erevuka",
-    "ezeka",
-    "faa",
-    "fagia",
-    "fahamisha",
-    "fahamu",
-    "faidia",
-    "fanana",
-    "fanya",
-    "faulu",
-    "ficha",
-    "fichwa",
-    "fika",
-    "fikiri",
-    "fikisha",
-    "finyanga",
-    "fuata",
-    "fuatana",
-    "fufua",
-    "fuga",
-    "fukuta",
-    "fukuza",
-    "fuma",
-    "fumba",
-    "fumbua",
-    "fumua",
-    "fundisha",
-    "funga"
-] # INCOMPLETE
+test_roots = ['amka', 'andalia', 'bishana', 'bomoa', 'chambua', 'chefuka', 'chekecha', 'chukua', 'dhani', 'epa', 'fuata', 'funga', 'gomba', 'heshimu', 'hifadhi', 'hitaji', 'hutubia', 'jaza', 'karibia', 'keti', 'kubali', 'laki', 'legea', 'lemaa', 'nyunyizia', 'omboleza', 'ona', 'onyesha', 'ozesha', 'piga', 'pukuta', 'randa', 'samaheka', 'sikia', 'sikika', 'songa', 'stahili', 'tamani', 'tandaza', 'tangaza', 'teka', 'tetema', 'tomba', 'twika', 'uawa', 'uma', 'uvumbuzi', 'vuma', 'vunja', 'wika']
+train_roots = ['abudu', 'acha', 'achia', 'adhibu', 'aga', 'agiza', 'agua', 'aibisha', 'ajiri', 'aka', 'alika', 'amba', 'ambua', 'amini', 'amsha', 'amua', 'amuka', 'amuru', 'andika', 'angalia', 'angamia', 'angaza', 'anguka', 'angusha', 'anika', 'anua', 'anza', 'apa', 'azima', 'azimu', 'babaika', 'babuka', 'badili', 'bahatisha', 'baki', 'bandika', 'banduka', 'banika', 'bariki', 'batili', 'beba', 'bembeleza', 'bidi', 'bingirika', 'burudisha', 'bwata', 'bweka', 'chacha', 'chafua', 'chafya', 'chagua', 'chana', 'changa', 'changamsha', 'changanya', 'changanyika', 'chanja', 'cheka', 'chekesha', 'chelewa', 'chemka', 'chemsha', 'cheza', 'chimba', 'chinja', 'chipuka', 'chochea', 'choka', 'chokonoa', 'choma', 'chomoa', 'chonga', 'chora', 'chota', 'chuchumaa', 'chuja', 'chukia', 'chukulia', 'chuma', 'chuna', 'chunga', 'chutama', 'dai', 'daka', 'danganya', 'elea', 'elimisha', 'enda', 'enea', 'erevuka', 'ezeka', 'faa', 'fagia', 'fahamisha', 'fahamu', 'faidia', 'fanana', 'fanya', 'faulu', 'ficha', 'fika', 'fikiri', 'finyanga', 'fufua', 'fuga', 'fukuta', 'fukuza', 'fuma', 'fumba', 'fumbua', 'fumua', 'fundisha', 'fungua', 'funguka', 'funguliwa', 'fungwa', 'funika', 'funua', 'funza', 'fupika', 'fura', 'furahi', 'futa', 'fyeka', 'ganda', 'gandamana', 'gawanya', 'geua', 'goma', 'gombana', 'gonga', 'gongana', 'guguna', 'gumia', 'guna', 'gundua', 'gusa', 'hadithia', 'haribu', 'hesabu', 'himiza', 'hitimu', 'hudhuria', 'hurumia', 'husu', 'huzunia', 'iba', 'iga', 'imarika', 'imba', 'inama', 'ingia', 'inua', 'ipo', 'isha', 'ishi', 'ita', 'iva', 'jaa', 'jamba', 'jaribu', 'jenga', 'jua', 'julikana', 'juta', 'kaa', 'kaanga', 'kaba', 'kagua', 'kamata', 'kana', 'kanda', 'kanyaga', 'kata', 'kataa', 'kataza', 'katika', 'kauka', 'kawia', 'kemea', 'kenua', 'kimbia', 'kinga', 'kingama', 'kiri', 'kodi', 'kohoa', 'kojoa', 'koma', 'komba', 'konda', 'konyeza', 'kopesha', 'koroga', 'koroma', 'kosa', 'kua', 'kwaa', 'kwama', 'lainisha', 'lala', 'lamba', 'lawama', 'laza', 'lazimu', 'lea', 'leta', 'letwa', 'levya', 'lewa', 'lia', 'lima', 'limwa', 'linda', 'lingana', 'lipa', 'lisha', 'lowa', 'maliza', 'menya', 'meremeta', 'meza', 'mimina', 'minya', 'momonyoka', 'mulika', 'mwaga', 'nawa', 'nenepa', "ng'aa", "ng'oa", "ng'oka", "ng'olewa", 'ngara', 'ngoja', 'nguruma', "ning'inia", 'noa', 'nuka', 'nukia', "nung'unika", 'nunua', 'nusa', 'nyakua', 'nyamaza', "nyang'anya", 'nyanyua', 'nyauka', 'nyemelea', 'nyesha', 'nyima', 'nyoa', 'nyonga', 'nyonya', 'nyooka', 'nyoosha', 'nywewa', 'oa', 'oga', 'ogopa', 'oka', 'okoa', 'okota', 'omba', 'ondoa', 'onea', 'ongea', 'ongeza', 'ongopa', 'ongoza', 'onwa', 'onya', 'osha', 'ota', 'oza', 'paa', 'paaza', 'pagawa', 'paka', 'pakia', 'pakua', 'palilia', 'pambanua', 'panda', 'panga', 'pangusa', 'papasa', 'parua', 'pasa', 'pasua', 'pata', 'patia', 'payuka', 'pekecha', 'peleka', 'peleleza', 'pembea', 'penda', 'penga', 'pepea', 'pepeta', 'pewa', 'pika', 'pikwa', 'pima', 'pinda', 'pindua', 'pinga', 'pita', 'poa', 'ponya', 'potea', 'pukuchua', 'puliza', 'pumua', 'pumzika', 'punga', 'ramba', 'refuka', 'rithi', 'roga', 'rudi', 'ruhusu', 'ruka', 'runda', 'rusha', 'sadiki', 'safiri', 'safisha', 'saga', 'sahau', 'saidia', 'sali', 'salimia', 'salimu', 'sambaa', 'samehe', 'sawazisha', 'sema', 'semezana', 'shambuliwa', 'shangaa', 'shangilia', 'shawishi', 'sherehekea', 'shiba', 'shika', 'shikamana', 'shinda', 'shindilia', 'shindwa', 'shirikiana', 'shona', 'shtaki', 'shtua', 'shtuka', 'shughulika', 'shuhudia', 'shuka', 'shukuru', 'shutumika', 'sifu', 'sihi', 'sikiliza', 'sikitika', 'sikiza', 'simama', 'simika', 'simulia', 'sindikiza', 'sinzia', 'sita', 'sitawi', 'sogea', 'sokota', 'soma', 'staajabu', 'subiri', 'sugua', 'suka', 'sukuma', 'sumbua', 'tafadhali', 'tafuna', 'tafuta', 'taga', 'tagaa', 'tajirika', 'taka', 'takata', 'takiwa', 'tambaa', 'tambua', 'tamka', 'tandika', 'tangulia', 'tanua', 'tapakaa', 'tapika', 'tata', 'tatanisha', 'tatua', 'tawala', 'tayarisha', 'tazama', 'tega', 'tegemea', 'tegua', 'teleza', 'tema', 'tembea', 'tenda', 'tenga', 'tengemaa', 'tengeneza', 'teseka', 'tetea', 'tetemeka', 'tia', 'tibu', 'tii', 'tikisa', 'timia', 'tiririka', 'tisha', 'toa', 'toba', 'toboa', 'toka', 'tolewa', 'tona', 'toroka', 'tota', 'tua', 'tubu', 'tukana', 'tukia', 'tukuka', 'tulia', 'tuma', 'tumaini', 'tundika', 'tunza', 'tupa', 'twanga', 'ua', 'udhika', 'ugua', 'uliza', 'umba', 'umuka', 'unga', 'uza', 'vaa', 'valisha', 'vimba', 'vua', 'vuja', 'vuka', 'vumilia', 'vuna', 'vundika', 'vuruga', 'vuta', 'vutia', 'wamba', 'weka', 'weza', 'wima', 'winda', 'yumba', 'zaa', 'zama', 'zeeka', 'ziba', 'zidi', 'zika', 'zima', 'zingira', 'zipo', 'zoea', 'zuia', 'zuka', 'zunguka', 'zungumza', 'zurura']
 
 parameters = {
     "finite": finite_options,
@@ -265,10 +139,11 @@ parameters = {
     "object": object_options,
     "causative": causative_options,
     "passive": passive_options,
+    "reciprocal": reciprocal_options,
     "applicative": applicative_options,
     "stative": stative_options,
     "mood": mood_options,
-    "root": root
+    "root": [*test_roots, *train_roots]
 }
 
 
@@ -290,9 +165,9 @@ def find_random(distribution, weighted_randomness):
         return choice
 
 
-def make_verb(weighted_randomness):
+def make_verb(weighted_randomness, training):
     return generate_verb(
-        root=random.sample(root, 1)[0],
+        root=random.sample(train_roots if training else test_roots, 1)[0],
         finite=find_random(finite_options, weighted_randomness),
         negation=find_random(negation_options, weighted_randomness),
         subject=find_random(subject_options, weighted_randomness),
@@ -301,6 +176,7 @@ def make_verb(weighted_randomness):
         relative=find_random(relative_options, weighted_randomness),
         object=find_random(object_options, weighted_randomness),
         causative=find_random(causative_options, weighted_randomness),
+        reciprocal=find_random(reciprocal_options, weighted_randomness),
         passive=find_random(passive_options, weighted_randomness),
         applicative=find_random(applicative_options, weighted_randomness),
         stative=find_random(stative_options, weighted_randomness),
@@ -308,21 +184,19 @@ def make_verb(weighted_randomness):
     )
 
 
-def make_dataset(size, file_name, weighted_randomness=True):
+def make_dataset(size, file_name, weighted_randomness=True, training=True):
     data = []
-    for i in range(size):
+    while len(data) < size:
         try:
-            data.append(make_verb(weighted_randomness))
+            data.append(make_verb(weighted_randomness, training) )
         except Exception:
             pass
-        if i % 1000 == 1:
-            print(f"{i / size} complete")
+        if len(data) % 10000 == 0:
+            print(f"{len(data) / size} complete")
     # Write to the file
     with open("datasets/" + file_name, "w") as file:
         json.dump(data, file)
 
 
 if __name__ == '__main__':
-    num_verbs = 1000
-    make_dataset(num_verbs, f"test{str(num_verbs)}verbs.json")
-
+    make_dataset(1, "1.json", weighted_randomness=True, training=False)

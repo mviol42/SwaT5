@@ -90,6 +90,11 @@ def find_harmony_class(stem):
 def generate_surface_form(verb):
     morphemes = []
 
+    if verb["tense"] == "hab" and verb["negation"]:
+        raise Exception("Negative habitual not handled")
+    if verb["mood"] == "imp" and verb["tense"] != "prs":
+        raise Exception("Imperative must be present tense")
+
     # Generate the subject and subject negation morphemes
     subject_negation_morpheme = ""
     subject_morpheme = ""
@@ -211,50 +216,6 @@ def generate_surface_form(verb):
         verb_class = "a"
     morphemes.append(causative_morpheme)
 
-    # Add the passive morpheme
-    passive_morpheme = ""
-    if verb["passive"]:
-        if verb_class == "a":
-            if morphemes[-1][-1] in "aeiou":
-                if find_harmony_class(morphemes[-1]) == "high":
-                    passive_morpheme = "liw"
-                else:
-                    passive_morpheme = "lew"
-            else:
-                passive_morpheme = "w"
-        elif verb_class == "e":
-            passive_morpheme = "w"
-        elif verb_class == "i":
-            passive_morpheme = "iw"
-        elif verb_class == "u":
-            if verb["root"][-1] == "a":
-                passive_morpheme = "liw"
-            else:
-                passive_morpheme = "iw"
-        verb_class = "a"
-    morphemes.append(passive_morpheme)
-
-    # Add applicative morpheme
-    applicative_morpheme = ""
-    if verb["applicative"]:
-        if verb_class == "a":
-            if morphemes[-1][-1] in "aeiou":
-                if find_harmony_class(morphemes[-1]) == "high":
-                    applicative_morpheme = "li"
-                else:
-                    applicative_morpheme = "le"
-            else:
-                applicative_morpheme = "e"
-        elif verb_class == "e" or verb_class == "i":
-            applicative_morpheme = ""
-        elif verb_class == "u":
-            if verb["root"][-1] == "a":
-                applicative_morpheme = "li"
-            else:
-                applicative_morpheme = "i"
-        verb_class = "a"
-    morphemes.append(applicative_morpheme)
-
     # Add stative morpheme
     stative_morpheme = ""
     if verb["applicative"]:
@@ -281,6 +242,62 @@ def generate_surface_form(verb):
         verb_class = "a"
     morphemes.append(stative_morpheme)
 
+    # Add applicative morpheme
+    applicative_morpheme = ""
+    if verb["applicative"]:
+        if verb_class == "a":
+            if morphemes[-1][-1] in "aeiou":
+                if find_harmony_class(morphemes[-1]) == "high":
+                    applicative_morpheme = "li"
+                else:
+                    applicative_morpheme = "le"
+            else:
+                applicative_morpheme = "e"
+        elif verb_class == "e" or verb_class == "i":
+            applicative_morpheme = ""
+        elif verb_class == "u":
+            if verb["root"][-1] == "a":
+                applicative_morpheme = "li"
+            else:
+                applicative_morpheme = "i"
+        verb_class = "a"
+    morphemes.append(applicative_morpheme)
+
+    # Add the passive morpheme
+    passive_morpheme = ""
+    if verb["passive"]:
+        if verb_class == "a":
+            if morphemes[-1][-1] in "aeiou":
+                if find_harmony_class(morphemes[-1]) == "high":
+                    passive_morpheme = "liw"
+                else:
+                    passive_morpheme = "lew"
+            else:
+                passive_morpheme = "w"
+        elif verb_class == "e":
+            passive_morpheme = "w"
+        elif verb_class == "i":
+            passive_morpheme = "iw"
+        elif verb_class == "u":
+            if verb["root"][-1] == "a":
+                passive_morpheme = "liw"
+            else:
+                passive_morpheme = "iw"
+        verb_class = "a"
+    morphemes.append(passive_morpheme)
+
+    # Add the reciprocal morpheme
+    reciprocal_morpheme = ""
+    if verb["reciprocal"]:
+        if verb["passive"]:
+            raise Exception("Passive may not appear with reciprocal.")
+        if verb_class == "a":
+            reciprocal_morpheme = "an"
+        else:
+            reciprocal_morpheme = verb_class + "n"
+        verb_class = "a"
+    morphemes.append(reciprocal_morpheme)
+
     # Add the final vowel
     final_vowel_morpheme = ""
     imperative_morpheme = ""
@@ -288,22 +305,30 @@ def generate_surface_form(verb):
         if verb["mood"] == "sbjv":
             if verb_class == "a":
                 final_vowel_morpheme = "e"
+            else:
+                final_vowel_morpheme = verb_class
         elif verb["mood"] == "imp":
             if verb["subject"] == "2sg":
                 if verb["object"] is not None:
                     if verb_class == "a":
                         final_vowel_morpheme = "e"
+                    else:
+                        final_vowel_morpheme = verb_class
+                else:
+                    final_vowel_morpheme = verb_class
             elif verb["subject"] == "2pl":
                 if verb_class == "a":
                     final_vowel_morpheme = "e"
-                    imperative_morpheme = "ni"
+                else:
+                    final_vowel_morpheme = verb_class
+                imperative_morpheme = "ni"
             else:
                 raise Exception("Imperative must take '2sg' or '2pl' subject")
         elif verb["mood"] == "ind":
             if verb["negation"] and verb["tense"] == "prs" and verb_class == "a":
                 final_vowel_morpheme = "i"
             else:
-                final_vowel_morpheme = "a"
+                final_vowel_morpheme = verb_class
         else:
             raise Exception("Mood must be 'sbjv', 'imp', 'ind', 'cond', 'sit'")
     morphemes.append(final_vowel_morpheme)
@@ -315,8 +340,8 @@ def generate_surface_form(verb):
 
 # Creates a verb dictionary from its attributes
 def generate_verb(root=None, finite=True, negation=True, subject="1sg", tense="prs", anterior=False,
-                  relative=None, object=None, causative=False, passive=False, applicative=False, stative=False,
-                  mood="ind"):
+                  relative=None, object=None, causative=False, passive=False, reciprocal=False,
+                  applicative=False, stative=False, mood="ind"):
     # Make sure the root is non-null
     if root is None:
         raise Exception("Null root")
@@ -332,6 +357,7 @@ def generate_verb(root=None, finite=True, negation=True, subject="1sg", tense="p
         "object": object,
         "causative": causative,
         "passive": passive,
+        "reciprocal": reciprocal,
         "applicative": applicative,
         "stative": stative,
         "mood": mood,
