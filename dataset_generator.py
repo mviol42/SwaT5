@@ -199,4 +199,10 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True):
 
 
 if __name__ == '__main__':
-    make_dataset(1, "1.json", weighted_randomness=True, training=False)
+    is_training = False
+    weighted = True
+    quantity = 10000
+    make_dataset(quantity,
+                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}weighted.json",
+                 weighted_randomness=weighted,
+                 training=is_training)
