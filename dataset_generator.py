@@ -188,7 +188,13 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True):
     data = []
     while len(data) < size:
         try:
-            data.append(make_verb(weighted_randomness, training) )
+            verb = make_verb(weighted_randomness, training)
+            data.append(
+                {
+                    'surface_form': verb['surface_form'],
+                    'morphemes': verb['morphemes']
+                }
+            )
         except Exception:
             pass
         if len(data) % 10000 == 0:
@@ -201,8 +207,8 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True):
 if __name__ == '__main__':
     is_training = True
     weighted = True
-    quantity = 1000000
+    quantity = 100000
     make_dataset(quantity,
-                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}weighted.json",
+                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}_stripped_weighted.json",
                  weighted_randomness=weighted,
                  training=is_training)
