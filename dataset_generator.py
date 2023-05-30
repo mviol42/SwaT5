@@ -184,11 +184,14 @@ def make_verb(weighted_randomness, training):
     )
 
 
-def make_dataset(size, file_name, weighted_randomness=True, training=True):
+def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True):
     data = []
     while len(data) < size:
         try:
-            data.append(make_verb(weighted_randomness, training) )
+            verb = make_verb(weighted_randomness, training)
+            if spaced:
+                verb["parsed"] = '"' + "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() + '"'
+            data.append(verb)
         except Exception:
             pass
         if len(data) % 10000 == 0:
@@ -201,8 +204,10 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True):
 if __name__ == '__main__':
     is_training = True
     weighted = True
-    quantity = 1000000
+    spaced = True
+    quantity = 100000
     make_dataset(quantity,
-                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}weighted.json",
+                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
                  weighted_randomness=weighted,
-                 training=is_training)
+                 training=is_training,
+                 spaced=spaced)
