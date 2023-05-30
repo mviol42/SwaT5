@@ -184,14 +184,23 @@ def make_verb(weighted_randomness, training):
     )
 
 
-def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True):
+def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True, stripped=True):
     data = []
     while len(data) < size:
         try:
             verb = make_verb(weighted_randomness, training)
-            if spaced:
-                verb["parsed"] = '"' + "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() + '"'
-            data.append(verb)
+            if stripped:
+                verb_data = {
+                    'surface_form': verb['surface_form'],
+                    'morphemes': verb['morphemes']
+                }
+                if spaced:
+                    verb_data['parsed'] = '"' + "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() + '"'
+                data.append(verb_data)
+            else:
+                if spaced:
+                    verb["parsed"] = '"' + "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() + '"'
+                data.append(verb)
         except Exception:
             pass
         if len(data) % 10000 == 0:
@@ -206,8 +215,10 @@ if __name__ == '__main__':
     weighted = True
     spaced = True
     quantity = 100000
+    stripped = True
     make_dataset(quantity,
-                 f"{quantity}_{'training' if is_training else 'testing'}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
+                 f"{quantity}_{'training' if is_training else 'testing'}{'__stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
                  weighted_randomness=weighted,
                  training=is_training,
-                 spaced=spaced)
+                 spaced=spaced,
+                 stripped=stripped)
