@@ -149,11 +149,11 @@ parameters = {
 
 def find_random(distribution, weighted_randomness):
     if not weighted_randomness:
-        return random.sample(distribution.keys(), 1)[0]
-
-    keys = list(distribution.keys() )
-    probabilities = list(distribution.values() )
-    choice = random.choices(keys, probabilities)[0]
+        choice = random.sample(distribution.keys(), 1)[0]
+    else:
+        keys = list(distribution.keys() )
+        probabilities = list(distribution.values() )
+        choice = random.choices(keys, probabilities)[0]
 
     if choice == "True":
         return True
@@ -168,7 +168,7 @@ def find_random(distribution, weighted_randomness):
 def make_verb(weighted_randomness, training):
     return generate_verb(
         root=random.sample(train_roots if training else test_roots, 1)[0],
-        finite=find_random(finite_options, weighted_randomness),
+        finite=find_random(finite_options, True),
         negation=find_random(negation_options, weighted_randomness),
         subject=find_random(subject_options, weighted_randomness),
         tense=find_random(tense_options, weighted_randomness),
@@ -180,7 +180,7 @@ def make_verb(weighted_randomness, training):
         passive=find_random(passive_options, weighted_randomness),
         applicative=find_random(applicative_options, weighted_randomness),
         stative=find_random(stative_options, weighted_randomness),
-        mood=find_random(mood_options, weighted_randomness)
+        mood=find_random(mood_options, True)
     )
 
 
@@ -211,9 +211,9 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True, space
 
 if __name__ == '__main__':
     is_training = True
-    weighted = True
+    weighted = False
     spaced = True
-    quantity = 1000000
+    quantity = 100000
     stripped = True
     make_dataset(quantity,
                  f"{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
