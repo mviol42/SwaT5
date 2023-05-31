@@ -213,7 +213,7 @@ if __name__ == '__main__':
     is_training = True
     weighted = True
     spaced = True
-    quantity = 100000
+    quantity = 1000000
     stripped = True
     make_dataset(quantity,
                  f"{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
