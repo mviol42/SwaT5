@@ -211,12 +211,12 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True, space
 
 if __name__ == '__main__':
     is_training = True
-    weighted = False
+    weighted = True
     spaced = True
-    quantity = 100000
+    quantity = 1000
     stripped = True
     make_dataset(quantity,
-                 f"{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
+                 f"SPECIALTEST_{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
                  weighted_randomness=weighted,
                  training=is_training,
                  spaced=spaced,
