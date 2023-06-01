@@ -1,5 +1,6 @@
 import re
 import csv
+import json
 from tqdm import tqdm
 
 # reads from the verb dictionary and formats it
@@ -66,6 +67,12 @@ def write_dict_to_csv(dictionary, file_path):
             writer.writerow([key, value])
 
 
+def read_json_file(file_path):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+    return data
+
+
 if __name__ == '__main__':
     regex = re.compile(f"({Rule1}|"
                        f"{Rule2}|"
@@ -75,14 +82,27 @@ if __name__ == '__main__':
                        f"{Rule6}|"
                        f"{Rule7}|"
                        f"{Rule8})")
+    file_paths = ['datasets/no_repeats_1000test.json',
+                  'datasets/1000_testing_stripped_weighted_spaced.json',
+                  'datasets/1000_training_stripped_weighted_spaced.json']
+    for file in file_paths:
+        data = read_json_file(file)
+        correct = 0
+        for data_point in data:
+            matches = [match for match in re.split(regex, data_point['surface_form']) if match]
+            morhemes = ' '.join(matches[1:])
+            print(matches, morhemes)
+            if morhemes == data_point['morphemes']:
+                correct += 1
 
-    txt_file_path = 'resources/swahili_data/train.txt'
-    word_list = read_words(txt_file_path)
-    morphemes = {}
-    for word in tqdm(word_list):
-        matches = [match for match in re.split(regex, word) if match]
-        if len(matches) > 1 and len(matches[0]) > 4:
-            morphemes[matches[0]] = matches[1:]
-    print(len(morphemes))
-    output_file_path = './resources/verbs_with_morphemes_from_swaregex.csv'
-    write_dict_to_csv(morphemes, output_file_path)
+        print(f'{file}: ', correct)
+    # txt_file_path = 'resources/swahili_data/train.txt'
+    # word_list = read_words(txt_file_path)
+    # morphemes = {}
+    # for word in tqdm(word_list):
+    #     matches = [match for match in re.split(regex, word) if match]
+    #     if len(matches) > 1 and len(matches[0]) > 4:
+    #         morphemes[matches[0]] = matches[1:]
+    # print(len(morphemes))
+    # output_file_path = './resources/verbs_with_morphemes_from_swaregex.csv'
+    # write_dict_to_csv(morphemes, output_file_path)
