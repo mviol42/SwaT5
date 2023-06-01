@@ -184,13 +184,31 @@ def make_verb(weighted_randomness, training):
     )
 
 
-def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True, stripped=True):
+def get_training_data():
+    # If no_repeats_test, then get a set of all the repeated ones
+    training_data = set()
+    for size in [1000, 10000, 100000]:
+        with open(f'datasets/{size}_training_stripped_weighted_spaced.json') as file:
+            data = json.load(file)
+            for datapoint in data:
+                training_data.add(datapoint['morphemes'])
+    return training_data
+
+
+def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True, stripped=True, no_repeats_test=False):
+    # If no_repeats_test, then get a set of all the repeated ones
+    training_data = get_training_data() if no_repeats_test else "NOT_RELEVANT"
+
     data = []
     while len(data) < size:
         try:
             verb = make_verb(weighted_randomness, training)
             if stripped:
                 morphemes = "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() if spaced else verb['morphemes']
+                if no_repeats_test:
+                    if morphemes in training_data:
+                        print("beep boop")
+                        continue
                 verb_data = {
                     'surface_form': verb['surface_form'],
                     'morphemes': morphemes
@@ -215,9 +233,15 @@ if __name__ == '__main__':
     spaced = True
     quantity = 1000
     stripped = True
+    no_repeats_test = True # IF THIS IS TRUE, make sure all other parameters are true as well
+    if no_repeats_test:
+        string_name = "no_repeats_1000test.json"
+    else:
+        string_name = f"SPECIALTEST_{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json"
     make_dataset(quantity,
-                 f"SPECIALTEST_{quantity}_{'training' if is_training else 'testing'}{'_stripped' if stripped else ''}_{'not_' if not weighted else ''}weighted_{'not_' if not spaced else ''}spaced.json",
+                 string_name,
                  weighted_randomness=weighted,
                  training=is_training,
                  spaced=spaced,
-                 stripped=stripped)
+                 stripped=stripped,
+                 no_repeats_test=no_repeats_test)
