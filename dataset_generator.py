@@ -187,7 +187,7 @@ def make_verb(weighted_randomness, training):
 def get_training_data():
     # If no_repeats_test, then get a set of all the repeated ones
     training_data = set()
-    for size in [1000, 10000, 100000]:
+    for size in [1000, 10000, 100000, 1000000]:
         with open(f'datasets/{size}_training_stripped_weighted_spaced.json') as file:
             data = json.load(file)
             for datapoint in data:
@@ -198,6 +198,7 @@ def get_training_data():
 def make_dataset(size, file_name, weighted_randomness=True, training=True, spaced=True, stripped=True, no_repeats_test=False):
     # If no_repeats_test, then get a set of all the repeated ones
     training_data = get_training_data() if no_repeats_test else "NOT_RELEVANT"
+    num_dupes = 0
 
     data = []
     while len(data) < size:
@@ -207,7 +208,7 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True, space
                 morphemes = "".join([(morpheme + " " if morpheme != "" else "") for morpheme in verb["morphemes"] ]).strip() if spaced else verb['morphemes']
                 if no_repeats_test:
                     if morphemes in training_data:
-                        print("beep boop")
+                        num_dupes += 1
                         continue
                 verb_data = {
                     'surface_form': verb['surface_form'],
@@ -225,6 +226,9 @@ def make_dataset(size, file_name, weighted_randomness=True, training=True, space
     # Write to the file
     with open("datasets/" + file_name, "w") as file:
         json.dump(data, file)
+
+    if no_repeats_test:
+        print("The number of dupes is", num_dupes)
 
 
 if __name__ == '__main__':
